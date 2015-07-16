@@ -2,8 +2,8 @@
 
 namespace xj\phprsa;
 
-
-class RsaPrivate {
+class RsaPrivate
+{
 
     /**
      * Certificate
@@ -26,11 +26,15 @@ class RsaPrivate {
      * @return RsaPrivate
      * @throws \yii\base\Exception
      */
-    public static function model($key, $passphrase = '') {
-        return new static([
-            'key' => $key,
-            'passphrase' => $passphrase,
-        ]);
+    public static function model($key, $passphrase = '')
+    {
+        return new static($key, $passphrase);
+    }
+
+    public function __construct($key, $passphrase = '')
+    {
+        $this->key = $key;
+        $this->passphrase = $passphrase;
     }
 
     /**
@@ -38,7 +42,8 @@ class RsaPrivate {
      * @return resource|FALSE
      * @see http://cn2.php.net/manual/en/function.openssl-get-privatekey.php
      */
-    private function getKey() {
+    private function getKey()
+    {
         return openssl_pkey_get_private($this->key);
     }
 
@@ -46,17 +51,20 @@ class RsaPrivate {
      * getBits
      * @return int
      */
-    private function getCertBits() {
+    private function getCertBits()
+    {
         $detail = openssl_pkey_get_details($this->getKey());
         return (isset($detail['bits'])) ? $detail['bits'] : null;
     }
 
-    private function getCertChars() {
+    private function getCertChars()
+    {
         $certLength = $this->getCertBits();
         return $certLength / 8;
     }
 
-    private function getMaxEncryptCharSize() {
+    private function getMaxEncryptCharSize()
+    {
         return $this->getCertChars() - 11;
     }
 
@@ -66,7 +74,8 @@ class RsaPrivate {
      * @return string|null
      * @see http://cn2.php.net/manual/en/function.openssl-private-encrypt.php
      */
-    public function encrypt($data) {
+    public function encrypt($data)
+    {
         $maxlength = $this->getMaxEncryptCharSize();
         $output = '';
         while ($data) {
@@ -88,7 +97,8 @@ class RsaPrivate {
      * @return string|null
      * @see http://cn2.php.net/manual/en/function.openssl-private-decrypt.php
      */
-    public function decrypt($data) {
+    public function decrypt($data)
+    {
         $maxlength = $this->getCertChars();
         $output = '';
         $data = base64_decode($data);

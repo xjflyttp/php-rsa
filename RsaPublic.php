@@ -26,10 +26,13 @@ class RsaPublic {
      * @throws \yii\base\Exception
      */
     public static function model($key, $passphrase = '') {
-        return new static([
-            'key' => $key,
-            'passphrase' => $passphrase,
-        ]);
+        return new static($key, $passphrase);
+    }
+    
+    public function __construct($key, $passphrase = '')
+    {
+        $this->key = $key;
+        $this->passphrase = $passphrase;
     }
 
     /**
