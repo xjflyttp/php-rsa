@@ -1,0 +1,17 @@
+{
+    "name": "xj/php-rsa",
+    "description": "php-rsa",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "xjflyttp",
+            "email": "xjflyttp@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "xj\\phprsa\\": ""
+        }
+    }
+}
