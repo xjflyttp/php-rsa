@@ -20,6 +20,12 @@ class RsaPrivate
     public $passphrase = '';
 
     /**
+     *
+     * @var resouce 
+     */
+    private $_keyInstance = false;
+
+    /**
      * Factory
      * @param string $key KeyPath | KeyContent
      * @param string $passphrase
@@ -44,7 +50,10 @@ class RsaPrivate
      */
     private function getKey()
     {
-        return openssl_pkey_get_private($this->key);
+        if (false === $this->_keyInstance) {
+            $this->_keyInstance = openssl_pkey_get_private($this->key);
+        }
+        return $this->_keyInstance;
     }
 
     /**

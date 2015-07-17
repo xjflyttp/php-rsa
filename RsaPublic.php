@@ -17,6 +17,12 @@ class RsaPublic {
      * @see http://cn2.php.net/manual/en/function.openssl-pkey-get-public.php
      */
     public $passphrase = '';
+    
+    /**
+     *
+     * @var resouce 
+     */
+    private $_keyInstance = false;
 
     /**
      * Factory
@@ -41,7 +47,10 @@ class RsaPublic {
      * @see http://cn2.php.net/manual/en/function.openssl-get-publickey.php
      */
     private function getKey() {
-        return openssl_pkey_get_public($this->key);
+        if ($this->_keyInstance === false) {
+            $this->_keyInstance = openssl_pkey_get_public($this->key);
+        }
+        return $this->_keyInstance;
     }
 
     /**
